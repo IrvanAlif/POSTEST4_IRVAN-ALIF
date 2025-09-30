@@ -398,3 +398,80 @@ Structure
 
 Constructor
 
+    public TanamanLambat(String nama, String jenis, String sistemHidroponik, 
+                        String tanggalTanam, String status, String phAir, String catatan) {
+        super(nama, jenis, sistemHidroponik, tanggalTanam, status, phAir, catatan);
+        this.lambatTumbuh = cekApakahLambatTumbuh(jenis, sistemHidroponik);
+        
+        if (lambatTumbuh) {
+            String catatanBaru = catatan + " (Tanaman hias sistem " + 
+                                 sistemHidroponik + " - lambat tumbuh)";
+            setCatatan(catatanBaru);
+        }
+    }
+
+Penjelasan:
+
+- Struktur sama dengan TanamanCepat
+- Perbedaan hanya pada kondisi dan pesan yang ditambahkan
+
+- Method cekApakahLambatTumbuh()
+
+---
+
+Method cekApakahLambatTumbuh()
+
+    private boolean cekApakahLambatTumbuh(String jenis, String sistemHidroponik) {
+        // Kondisi: Tanaman Hias + (Wick atau Drip) = lambat tumbuh
+        if (jenis.equals("Tanaman Hias") && 
+            (sistemHidroponik.equals("Wick") || sistemHidroponik.equals("Drip"))) {
+            return true;
+        }
+        return false;
+    }
+
+Penjelasan Logika:
+
+    Tanaman Hias + Wick → TRUE  (Lambat tumbuh)
+    Tanaman Hias + Drip → TRUE  (Lambat tumbuh)
+    Tanaman Hias + NFT  → FALSE (Tidak lambat tumbuh)
+    Sayuran + Wick      → FALSE (Tidak lambat tumbuh)
+
+---
+
+Override toString()
+
+    @Override
+    public String toString() {
+        String keterangan = lambatTumbuh ? 
+            "HIAS+" + getSistemHidroponik() + "=LAMBAT" : 
+            getJenis().toUpperCase();
+        return super.toString() + " | " + keterangan;
+    }
+
+Penjelasan Detail:
+Ternary Operator (? :):
+
+    kondisi ? nilaiJikaTrue : nilaiJikaFalse
+
+- Shorthand untuk if-else
+- Jika lambatTumbuh true → "HIAS+Wick=LAMBAT"
+- Jika lambatTumbuh false → "TANAMAN HIAS"
+
+Method Chaining:
+
+- getSistemHidroponik(): Memanggil getter dari parent class
+- getJenis().toUpperCase(): Ambil jenis, lalu convert ke uppercase
+
+super.toString():
+
+- Memanggil method toString() dari parent class
+- Mengambil format dasar dari Tanaman
+- Menambahkan keterangan tambahan di akhir
+
+Output Example:
+
+    Anggrek | Tanaman Hias | Wick | 15/01/2025 | Tumbuh | pH:6.0 | Bagus (Tanaman hias sistem Wick - lambat tumbuh) | HIAS+Wick=LAMBAT
+
+---
+

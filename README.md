@@ -1789,9 +1789,9 @@ public String toString() // Sudah ada dari versi sebelumnya
 └──────────────────┘
 
 
-┌─────────────┐
-│  IMenuView  │ (Interface)
-├─────────────┤
+┌─────────────┐─────────────
+│  IMenuView  │ (Interface) │
+├─────────────┤─────────────│
 │ + tampilkanMenuUtama()    │
 │ + tampilkanMenuLogin()    │
 │ + prosesLogin()           │
@@ -1800,7 +1800,7 @@ public String toString() // Sudah ada dari versi sebelumnya
 │ + validasiInputInteger()  │
 │ + tampilkanHeader()       │ (default)
 │ + tampilkanFooter()       │ (default)
-└──────┬──────┘
+└──────┬────────────────────┘
        │ implements
        ▼
 ┌──────────────┐

@@ -475,3 +475,460 @@ Output Example:
 
 ---
 
+4. User.java
+Model class untuk menyimpan data user yang akan login ke sistem.
+Properties
+
+        private String username;      // Username untuk login
+        private String password;      // Password user
+        private String role;          // Role: "admin" atau "user"
+        private String namaLengkap;   // Nama lengkap user
+
+Constructor
+
+    public User(String username, String password, String role, String namaLengkap) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.namaLengkap = namaLengkap;
+    }
+
+Penjelasan:
+
+- Constructor sederhana untuk inisialisasi 4 properties
+- Semua parameter required (tidak ada default value)
+
+Getter Methods
+
+    public String getUsername() { return username; }
+    public String getPassword() { return password; }
+    public String getRole() { return role; }
+    public String getNamaLengkap() { return namaLengkap; }
+
+Setter Methods
+
+    public void setUsername(String username) { this.username = username; }
+    public void setPassword(String password) { this.password = password; }
+    public void setRole(String role) { this.role = role; }
+    public void setNamaLengkap(String namaLengkap) { this.namaLengkap = namaLengkap; }
+
+toString()
+
+    @Override
+    public String toString() {
+        return namaLengkap + " (" + username + ") - " + role;
+    }
+
+Output Example:
+
+    Administrator (admin) - admin
+    Regular User (user) - user
+
+---
+
+Service Layer
+
+1. TanamanService.java
+
+Class ini berisi business logic untuk operasi CRUD (Create, Read, Update, Delete) tanaman. Ini adalah core dari aplikasi.
+
+Properties
+
+    private ArrayList<Tanaman> daftarTanaman;  // Menyimpan semua data tanaman
+    private Scanner input;                      // Untuk membaca input user
+
+Penjelasan ArrayList:
+
+- ArrayList<Tanaman>: Dynamic array yang bisa menyimpan object Tanaman
+- Polymorphism: Bisa menyimpan Tanaman, TanamanCepat, dan TanamanLambat
+- Dynamic size: Otomatis bertambah saat menambah data
+- Methods: add(), remove(), get(), size(), isEmpty()
+
+Constructor
+
+    public TanamanService() {
+        this.daftarTanaman = new ArrayList<>();
+        this.input = new Scanner(System.in);
+    }
+
+Penjelasan:
+
+- Inisialisasi ArrayList kosong
+- Membuat Scanner untuk membaca input dari console
+- Constructor dipanggil saat: new TanamanService()
+- 
+---
+
+Method 1: tambahTanaman() - CREATE
+
+    public void tambahTanaman() {
+        // STEP 1: Input nama tanaman
+        System.out.print("Nama Tanaman: ");
+        String nama = input.nextLine();
+
+Penjelasan:
+
+- input.nextLine(): Membaca satu baris input dari user
+- Menyimpan ke variable nama dengan tipe String
+
+        // STEP 2: Input jenis tanaman dengan menu pilihan
+            System.out.println("Jenis Tanaman: 1.Sayuran 2.Buah 3.Herbal 4.Tanaman Hias");
+            System.out.print("Pilih jenis (1-4): ");
+            int j = validasiInputInteger(1, 4);
+
+Penjelasan:
+
+- Tampilkan menu pilihan 1-4
+- validasiInputInteger(1, 4): Method helper untuk validasi input
+- Memastikan user input angka 1-4, tidak yang lain
+
+---
+
+    String jenis = (j==1)?"Sayuran":(j==2)?"Buah":(j==3)?"Herbal":(j==4)?"Tanaman Hias":"Belum ditentukan";
+
+Penjelasan Nested Ternary:
+
+
+    if (j == 1) {
+        jenis = "Sayuran";
+    } else if (j == 2) {
+        jenis = "Buah";
+    } else if (j == 3) {
+        jenis = "Herbal";
+    } else if (j == 4) {
+        jenis = "Tanaman Hias";
+    } else {
+        jenis = "Belum ditentukan";
+    }
+
+
+- Nested ternary lebih singkat tapi kurang readable
+- Mengkonversi input angka (1-4) menjadi String jenis
+
+        // STEP 3: Input sistem hidroponik
+            System.out.println("Sistem Hidroponik: 1.NFT 2.DWC 3.Wick 4.Drip 5.Ebb&Flow 6.Aeroponik");
+            System.out.print("Pilih sistem (1-6): ");
+            int s = validasiInputInteger(1, 6);
+            String sistem = (s==1)?"NFT":(s==2)?"DWC":(s==3)?"Wick":(s==4)?"Drip":(s==5)?"Ebb&Flow":(s==6)?"Aeroponik":"Belum ditentukan";
+
+
+Penjelasan:
+
+- Sama seperti input jenis, tapi untuk sistem hidroponik
+- Range 1-6 untuk 6 pilihan sistem
+
+        // STEP 4: Input data lainnya
+            System.out.print("Tanggal Tanam (dd/mm/yyyy): ");
+            String tanggal = input.nextLine();
+            
+            System.out.println("Status Tanaman: 1.Bibit 2.Tumbuh 3.Berbunga 4.Berbuah 5.Panen 6.Mati");
+            System.out.print("Pilih status (1-6): ");
+            int st = validasiInputInteger(1, 6);
+            String status = (st==1)?"Bibit":(st==2)?"Tumbuh":(st==3)?"Berbunga":(st==4)?"Berbuah":(st==5)?"Panen":(st==6)?"Mati":"Belum ditentukan";
+            
+            System.out.print("pH Air: ");
+            String ph = input.nextLine();
+            System.out.print("Catatan: ");
+            String ctn = input.nextLine();
+
+Penjelasan:
+
+- Mengumpulkan semua data yang dibutuhkan untuk membuat object Tanaman
+- Setiap input disimpan ke variable masing-masing
+
+        // STEP 5: Buat instance berdasarkan kondisi (POLYMORPHISM)
+            if (jenis.equals("Sayuran") && (sistem.equals("NFT") || sistem.equals("DWC"))) {
+                // Kondisi 1: Sayuran + NFT/DWC = TanamanCepat
+                TanamanCepat tanaman = new TanamanCepat(nama, jenis, sistem, tanggal, status, ph, ctn);
+                daftarTanaman.add(tanaman);
+                
+            } else if (jenis.equals("Tanaman Hias") && (sistem.equals("Wick") || sistem.equals("Drip"))) {
+                // Kondisi 2: Tanaman Hias + Wick/Drip = TanamanLambat
+                TanamanLambat tanaman = new TanamanLambat(nama, jenis, sistem, tanggal, status, ph, ctn);
+                daftarTanaman.add(tanaman);
+                
+            } else {
+                // Kondisi 3: Lainnya = Tanaman biasa
+                Tanaman tanaman = new Tanaman(nama, jenis, sistem, tanggal, status, ph, ctn);
+                daftarTanaman.add(tanaman);
+            }
+            
+            System.out.println("Tanaman berhasil ditambahkan!");
+        }
+
+Penjelasan Detail:
+Decision Tree:
+
+    ├─ Sayuran + (NFT || DWC) ?
+    │  ├─ YES → TanamanCepat
+    │  └─ NO  → Cek kondisi 2
+    │
+    ├─ Tanaman Hias + (Wick || Drip) ?
+    │  ├─ YES → TanamanLambat
+    │  └─ NO  → Tanaman biasa
+
+Polymorphism:
+
+- ArrayList<Tanaman> dapat menerima:
+
+    - new Tanaman() (parent class)
+    - new TanamanCepat() (child class)
+    - new TanamanLambat() (child class)
+- Semua disimpan sebagai tipe Tanaman
+- Saat runtime, Java tahu object sebenarnya apa (dynamic binding)
+
+Upcasting Otomatis:
+
+    TanamanCepat tc = new TanamanCepat(...);  // TanamanCepat type
+    daftarTanaman.add(tc);                     // Otomatis upcast ke Tanaman
+
+Method 2: lihatTanaman() - READ
+
+    public void lihatTanaman() {
+        System.out.println("=== Daftar Tanaman ===");
+        
+        // Cek apakah daftar kosong
+        if(daftarTanaman.isEmpty()) {
+            System.out.println("Belum ada tanaman.");
+        } else {
+            // Loop untuk menampilkan semua tanaman
+            for(int i = 0; i < daftarTanaman.size(); i++){
+                System.out.println((i+1) + ". " + daftarTanaman.get(i).toString());
+            }
+        }
+    }
+
+Penjelasan Detail:
+Method isEmpty():
+
+- Return true jika ArrayList kosong
+- Return false jika ada data
+- Lebih baik dari size() == 0
+
+For Loop Tradisional:
+
+    for(int i = 0; i < daftarTanaman.size(); i++)
+
+- i = 0: Mulai dari index 0
+- i < daftarTanaman.size(): Loop selama i kurang dari jumlah data
+- i++: Increment i setiap iterasi
+
+Method get():
+
+- daftarTanaman.get(i): Mengambil object di index i
+- Return type: Tanaman (bisa juga TanamanCepat/TanamanLambat)
+
+Method toString():
+
+- Dipanggil otomatis saat print object
+- Bisa juga explicit: daftarTanaman.get(i).toString()
+- Jika object adalah TanamanLambat, akan pakai toString() yang di-override
+
+Output Example:
+
+    === Daftar Tanaman ===
+    1. Selada | Sayuran | NFT | 01/01/2025 | Tumbuh | pH:6.5 | Baik (Sayuran sistem NFT - cepat tumbuh)
+    2. Anggrek | Tanaman Hias | Wick | 15/01/2025 | Tumbuh | pH:6.0 | Bagus (Tanaman hias sistem Wick - lambat tumbuh) | HIAS+Wick=LAMBAT
+
+Method 3: updateTanaman() - UPDATE
+
+    public void updateTanaman() {
+        // STEP 1: Cek apakah ada data
+        if(daftarTanaman.isEmpty()) {
+            System.out.println("Belum ada tanaman.");
+            return;  // Keluar dari method
+    }
+
+Penjelasan return:
+
+- return: Menghentikan eksekusi method dan keluar
+- Tanpa return, kode di bawahnya akan tetap dijalankan
+- Guard clause untuk mencegah error
+
+        // STEP 2: Minta nomor tanaman yang akan diupdate
+            System.out.print("Nomor tanaman yang ingin diupdate: ");
+            int u = validasiInputInteger(1, daftarTanaman.size());
+
+Penjelasan:
+
+- User pilih nomor 1-N (N = jumlah tanaman)
+- daftarTanaman.size(): Jumlah total tanaman
+- Validasi memastikan input tidak melebihi jumlah data
+
+        // STEP 3: Validasi nomor dan ambil object
+            if(u > 0 && u <= daftarTanaman.size()){
+                int idx = u - 1;  // Convert nomor tampilan ke index array
+                Tanaman tanaman = daftarTanaman.get(idx);
+
+Penjelasan Index:
+
+- User lihat nomor: 1, 2, 3, ...
+- ArrayList index: 0, 1, 2, ...
+- Konversi: idx = u - 1
+- Contoh: User pilih nomor 3 → Index 2
+
+Get Reference:
+
+- Tanaman tanaman = daftarTanaman.get(idx): Ambil referensi object
+- Perubahan pada tanaman akan mengubah object di ArrayList
+- Tidak membuat copy, tapi referensi ke object yang sama
+        
+        // STEP 4: Update setiap property menggunakan setter
+                System.out.print("Nama baru: ");
+                tanaman.setNama(input.nextLine());
+                
+                System.out.print("Jenis baru: ");
+                tanaman.setJenis(input.nextLine());
+                
+                System.out.print("Sistem baru: ");
+                tanaman.setSistemHidroponik(input.nextLine());
+                
+                System.out.print("Tanggal baru: ");
+                tanaman.setTanggalTanam(input.nextLine());
+                
+                System.out.print("Status baru: ");
+                tanaman.setStatus(input.nextLine());
+                
+                System.out.print("pH baru: ");
+                tanaman.setPhAir(input.nextLine());
+                
+                System.out.print("Catatan baru: ");
+                tanaman.setCatatan(input.nextLine());
+                
+                System.out.println("Tanaman berhasil diupdate!");
+
+Penjelasan Setter:
+
+- Menggunakan setter untuk mengubah nilai property
+- tanaman.setNama(...): Ubah property nama
+- Setter mengubah property private melalui public method
+- Ini adalah Encapsulation dalam aksi
+
+Flow Diagram:
+
+    User input nomor → Ambil object → Update properties → Selesai
+           ↓               ↓                 ↓
+       u = 3         idx = 2          setNama(), setJenis(), ...
+                    get(2)
+
+
+    } else {
+            System.out.println("Nomor tidak valid.");
+        }
+    }
+
+Method 4: hapusTanaman() - DELETE
+
+    public void hapusTanaman() {
+        // STEP 1: Validasi data
+        if(daftarTanaman.isEmpty()) {
+            System.out.println("Belum ada tanaman.");
+            return;
+        }
+        
+        // STEP 2: Input nomor tanaman
+        System.out.print("Nomor tanaman yang ingin dihapus: ");
+        int h = validasiInputInteger(1, daftarTanaman.size());
+        
+        // STEP 3: Hapus dari ArrayList
+        if(h > 0 && h <= daftarTanaman.size()){
+            daftarTanaman.remove(h - 1);  // Remove by index
+            System.out.println("Tanaman berhasil dihapus!");
+        }
+
+    Penjelasan Method remove():
+
+remove(index): Menghapus element di index tertentu
+- Return type: Object yang dihapus
+- Setelah remove, semua element setelahnya bergeser ke kiri
+- Size ArrayList berkurang 1
+
+Contoh:
+
+    Before: [Tanaman1, Tanaman2, Tanaman3, Tanaman4]
+             Index: 0        1         2         3
+    
+    remove(1) → Hapus Tanaman2
+    
+    After:  [Tanaman1, Tanaman3, Tanaman4]
+             Index: 0        1         2
+
+Important Note:
+
+- Saat remove, index berubah!
+- Jangan loop dengan index dan remove di dalam loop (akan skip element)
+
+---
+
+    Method 5: cariTanaman() - SEARCH
+    
+    public void cariTanaman() {
+        // STEP 1: Validasi data
+        if(daftarTanaman.isEmpty()) {
+            System.out.println("Belum ada tanaman.");
+            return;
+    }
+
+    // STEP 2: Pilih jenis pencarian
+        System.out.println("=== PENCARIAN TANAMAN ===");
+        System.out.println("1. Cari berdasarkan nama");
+        System.out.println("2. Cari berdasarkan jenis");
+        System.out.println("3. Cari berdasarkan status");
+        System.out.print("Pilih jenis pencarian: ");
+        
+        int jenis = validasiInputInteger(1, 3);
+
+
+Penjelasan:
+
+- User dapat memilih kriteria pencarian
+- 3 pilihan: nama, jenis, atau status
+- Flexible search feature
+
+        // STEP 3: Input keyword
+            System.out.print("Masukkan keyword: ");
+            String keyword = input.nextLine().toLowerCase();
+
+Penjelasan toLowerCase():
+
+    - Konversi input ke lowercase untuk case-insensitive search
+    - "SELADA" = "selada" = "Selada" (semua dianggap sama)
+    - Best practice untuk pencarian
+    
+    // STEP 4: Loop dan filter
+        System.out.println("=== Hasil Pencarian ===");
+        boolean found = false;
+        
+        for(int i = 0; i < daftarTanaman.size(); i++){
+            Tanaman t = daftarTanaman.get(i);
+            boolean match = false;
+
+Penjelasan Variable:
+
+    - found: Track apakah ada hasil yang ditemukan
+    - t: Referensi ke object tanaman saat ini
+    - match: Track apakah tanaman ini cocok dengan keyword
+    
+    // STEP 5: Cek match berdasarkan jenis pencarian
+            switch(jenis) {
+                case 1: // Pencarian berdasarkan nama
+                    match = t.getNama().toLowerCase().contains(keyword);
+                    break;
+                case 2: // Pencarian berdasarkan jenis
+                    match = t.getJenis().toLowerCase().contains(keyword);
+                    break;
+                case 3: // Pencarian berdasarkan status
+                    match = t.getStatus().toLowerCase().contains(keyword);
+                    break;
+            }
+
+Penjelasan Switch-Case:
+
+- Alternative dari if-else if-else
+- Lebih clean untuk multiple conditions
+- break: Keluar dari switch setelah case dijalankan
+
+Method contains():
+
+    "Selada Hijau".contains("lada")  → true
+    "Selada Hijau".contains("merah") → false

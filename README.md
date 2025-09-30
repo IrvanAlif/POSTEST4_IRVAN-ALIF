@@ -254,3 +254,147 @@ Penjelasan:
 
 ---
 
+2. TanamanCepat.java (Subclass)
+
+Class ini adalah subclass dari Tanaman untuk merepresentasikan tanaman yang cepat tumbuh. Menggunakan prinsip Inheritance.
+Relationship
+
+    public class TanamanCepat extends Tanaman {
+        // Mewarisi semua properties dan methods dari Tanaman
+    }
+
+Penjelasan extends:
+
+- TanamanCepat adalah child class / subclass
+- Tanaman adalah parent class / superclass
+- TanamanCepat mewarisi semua properties (nama, jenis, dll) dan methods (getter/setter) dari Tanaman
+- TanamanCepat dapat menambahkan properties/methods baru
+
+---
+
+Additional Property
+
+    private boolean cepatTumbuh;  // true jika memenuhi kondisi cepat tumbuh
+
+Penjelasan:
+
+- Property tambahan yang tidak ada di superclass
+- Tipe boolean: hanya bisa true atau false
+- Digunakan untuk menandai apakah tanaman ini termasuk kategori cepat tumbuh
+
+---
+
+Constructor dengan Super
+
+    public TanamanCepat(String nama, String jenis, String sistemHidroponik, 
+                       String tanggalTanam, String status, String phAir, String catatan) {
+        // 1. Panggil constructor parent class
+        super(nama, jenis, sistemHidroponik, tanggalTanam, status, phAir, catatan);
+        
+        // 2. Inisialisasi property tambahan
+        this.cepatTumbuh = cekApakahCepatTumbuh(jenis, sistemHidroponik);
+        
+        // 3. Modifikasi catatan jika cepat tumbuh
+        if (cepatTumbuh) {
+            String catatanBaru = catatan + " (Sayuran sistem " + 
+                                 sistemHidroponik + " - cepat tumbuh)";
+            setCatatan(catatanBaru);  // Gunakan setter dari parent class
+        }
+    }
+
+Penjelasan Detail:
+- Baris 1: super(...)
+
+    super() memanggil constructor dari parent class (Tanaman)
+    Harus dipanggil pertama kali di constructor subclass
+    Menginisialisasi semua properties yang diwarisi dari parent
+    Tanpa super(), properties dari parent tidak akan terinisialisasi
+
+- Baris 2: this.cepatTumbuh = ...
+
+    Inisialisasi property tambahan yang khusus untuk TanamanCepat
+    Memanggil method cekApakahCepatTumbuh() untuk menentukan nilai
+
+- Baris 3-6: Conditional Logic
+
+    if (cepatTumbuh): Cek apakah tanaman termasuk cepat tumbuh
+    Jika true, tambahkan informasi ke catatan
+    setCatatan(): Menggunakan setter dari parent class (inheritance)
+
+---
+
+Method cekApakahCepatTumbuh()
+
+    private boolean cekApakahCepatTumbuh(String jenis, String sistemHidroponik) {
+        // Kondisi: Sayuran + (NFT atau DWC) = cepat tumbuh
+        if (jenis.equals("Sayuran") && 
+            (sistemHidroponik.equals("NFT") || sistemHidroponik.equals("DWC"))) {
+            return true;
+        }
+        
+        // Kondisi lain = tidak cepat tumbuh
+        return false;
+    }
+
+Penjelasan Logika:
+- Operator && (AND):
+
+    Kedua kondisi harus TRUE agar hasil TRUE
+    jenis.equals("Sayuran") AND (NFT atau DWC)
+
+- Operator || (OR):
+
+    Salah satu kondisi TRUE, hasil TRUE
+    sistemHidroponik.equals("NFT") OR sistemHidroponik.equals("DWC")
+
+  ---
+
+Kombinasi:
+
+    Sayuran + NFT  → TRUE  (Cepat tumbuh)
+    Sayuran + DWC  → TRUE  (Cepat tumbuh)
+    Sayuran + Wick → FALSE (Tidak cepat tumbuh)
+    Buah + NFT     → FALSE (Tidak cepat tumbuh)
+
+- Method .equals():
+
+    Digunakan untuk membandingkan String di Java
+    Jangan gunakan == untuk String (membandingkan referensi, bukan value)
+  
+---
+
+Getter & Setter
+
+    public boolean isCepatTumbuh() {
+        return cepatTumbuh;
+    }
+    
+    public void setCepatTumbuh(boolean cepatTumbuh) {
+        this.cepatTumbuh = cepatTumbuh;
+    }
+
+Penjelasan:
+
+- Getter untuk boolean menggunakan prefix is bukan get
+- Naming: isCepatTumbuh() lebih natural dalam bahasa
+- Contoh: if (tanaman.isCepatTumbuh()) { ... }
+
+---
+
+3. TanamanLambat.java (Subclass)
+
+Class ini adalah subclass dari Tanaman untuk tanaman yang lambat tumbuh.
+
+Structure
+
+    public class TanamanLambat extends Tanaman {
+        private boolean lambatTumbuh;
+        
+        // Constructor dengan super()
+        // Method cekApakahLambatTumbuh()
+        // Getter & Setter
+        // Override toString()
+    }
+
+Constructor
+

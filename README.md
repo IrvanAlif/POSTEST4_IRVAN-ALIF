@@ -932,3 +932,1140 @@ Method contains():
 
     "Selada Hijau".contains("lada")  → true
     "Selada Hijau".contains("merah") → false
+
+- Return true jika substring ditemukan
+- Case-sensitive, makanya pakai toLowerCase()
+
+Partial Match:
+
+    - User input "sel" → Match "Selada"
+    - User input "say" → Match "Sayuran"
+    - Lebih user-friendly dari exact match
+    
+    // STEP 6: Tampilkan jika match
+            if(match) {
+                System.out.println((i+1) + ". " + t.toString());
+                found = true;
+            }
+    }
+
+Penjelasan:
+
+- Jika match, tampilkan data tanaman
+- Set found = true untuk indikasi ada hasil
+
+        // STEP 7: Pesan jika tidak ada hasil
+            if(!found) {
+                System.out.println("Data tidak ditemukan untuk keyword: " + keyword);
+            }
+        }
+
+Penjelasan:
+
+- !found: NOT operator (kebalikan dari found)
+- Jika found = false, tampilkan pesan tidak ditemukan
+
+Example Flow:
+
+    User pilih: 1 (nama)
+    User input: "sel"
+    
+    Loop through all tanaman:
+      → "Selada" contains "sel"? YES → Print
+      → "Kangkung" contains "sel"? NO
+      → "Bayam" contains "sel"? NO
+    
+    Result: Found 1 tanaman
+
+Method 6: tampilkanStatistik() - STATISTICS
+
+    public void tampilkanStatistik() {
+        // STEP 1: Validasi
+        if(daftarTanaman.isEmpty()) {
+            System.out.println("Belum ada tanaman.");
+            return;
+        }
+        
+        // STEP 2: Header
+        System.out.println("\n=== STATISTIK TANAMAN ===");
+        System.out.println("Total Tanaman: " + daftarTanaman.size());
+
+
+Penjelasan:
+
+- \n: Newline untuk spacing
+- size(): Total jumlah tanaman
+
+        // STEP 3: Hitung berdasarkan jenis
+            int sayuran = 0, buah = 0, herbal = 0, hias = 0;
+            
+            for(Tanaman t : daftarTanaman) {
+                switch(t.getJenis().toLowerCase()) {
+                    case "sayuran": sayuran++; break;
+                    case "buah": buah++; break;
+                    case "herbal": herbal++; break;
+                    case "tanaman hias": hias++; break;
+                }
+            }
+
+Penjelasan Enhanced For Loop:
+
+    for(Tanaman t : daftarTanaman)
+
+- Alternative syntax untuk loop
+- "Untuk setiap Tanaman t di dalam daftarTanaman"
+- Lebih simple, tidak perlu index
+- Tidak bisa modify ArrayList saat loop
+
+Counter Pattern:
+
+Initialize counter = 0
+- Loop through data
+- Increment counter jika kondisi match
+- sayuran++ sama dengan sayuran = sayuran + 1
+
+  Switch-Case untuk Counting:
+
+          Loop 1: "Sayuran" → sayuran++ → sayuran = 1
+        Loop 2: "Buah" → buah++ → buah = 1
+        Loop 3: "Sayuran" → sayuran++ → sayuran = 2
+        ...
+
+          // STEP 4: Tampilkan hasil jenis
+            System.out.println("\nBerdasarkan Jenis:");
+            System.out.println("- Sayuran: " + sayuran);
+            System.out.println("- Buah: " + buah);
+            System.out.println("- Herbal: " + herbal);
+            System.out.println("- Tanaman Hias: " + hias);
+
+          // STEP 5: Hitung berdasarkan status
+            int bibit = 0, tumbuh = 0, berbunga = 0, berbuah = 0, panen = 0, mati = 0;
+            
+            for(Tanaman t : daftarTanaman) {
+                switch(t.getStatus().toLowerCase()) {
+                    case "bibit": bibit++; break;
+                    case "tumbuh": tumbuh++; break;
+                    case "berbunga": berbunga++; break;
+                    case "berbuah": berbuah++; break;
+                    case "panen": panen++; break;
+                    case "mati": mati++; break;
+                }
+            }
+            
+            // STEP 6: Tampilkan hasil status
+            System.out.println("\nBerdasarkan Status:");
+            System.out.println("- Bibit: " + bibit);
+            System.out.println("- Tumbuh: " + tumbuh);
+            System.out.println("- Berbunga: " + berbunga);
+            System.out.println("- Berbuah: " + berbuah);
+            System.out.println("- Panen: " + panen);
+            System.out.println("- Mati: " + mati);
+        }
+
+  Example Output:
+
+  Method 7: validasiInputInteger() - VALIDATION
+    
+      private int validasiInputInteger(int min, int max) {
+        int nilai;
+        
+        while(true) {  // Infinite loop
+            try {
+                // STEP 1: Coba baca input
+                nilai = input.nextInt();
+                input.nextLine(); // consume newline character
+
+Penjelasan While(true):
+
+- Loop tak terbatas
+- Akan terus loop sampai break dipanggil
+- Pattern umum untuk validasi input
+
+Try-Catch Block:
+
+- try: Coba jalankan kode yang mungkin error
+- catch: Tangkap error jika terjadi
+- Exception handling untuk input validation
+
+nextInt() Problem:
+
+    User input: "123\n"
+    nextInt() → reads "123", leaves "\n"
+    nextLine() → reads "\n" (consume the leftover)
+
+- nextInt() tidak membaca newline
+- nextLine() setelahnya untuk membersihkan buffer
+
+        // STEP 2: Validasi range
+                    if(nilai >= min && nilai <= max) {
+                        break;  // Keluar dari loop
+                    } else {
+                        System.out.print("Input harus antara " + min + " dan " + max + ". Coba lagi: ");
+                    }
+
+Penjelasan Validation:
+
+- Cek apakah input dalam range min-max
+- Jika valid: break (keluar dari loop)
+- Jika tidak valid: tampilkan pesan, loop lagi
+
+Example:
+
+    min = 1, max = 4
+    
+    Input: 5 → "Input harus antara 1 dan 4"
+    Input: 0 → "Input harus antara 1 dan 4"
+    Input: 2 → Valid, break
+
+        } catch(Exception e) {
+                    System.out.print("Input harus berupa angka. Coba lagi: ");
+                    input.nextLine(); // consume invalid input
+                }
+            }
+            return nilai;
+        }
+
+Penjelasan Exception:
+
+- Exception e: Variable untuk menyimpan error
+- Jika nextInt() gagal (user input huruf), masuk catch block
+- input.nextLine(): Buang input yang invalid
+
+Exception Flow:
+
+    User input: "abc"
+    nextInt() → Throws InputMismatchException
+    Caught by catch → Print error message
+    nextLine() → Clear "abc" dari buffer
+    Loop again → Minta input baru
+
+2. UserService.java
+Deskripsi
+Class ini mengelola autentikasi user dan role-based access control.
+Properties
+
+        private ArrayList<User> daftarUser;  // Menyimpan semua user
+        private User currentUser;            // User yang sedang login
+
+Penjelasan:
+
+daftarUser: Database user (in-memory)
+currentUser: Track user yang sedang aktif
+null = belum login
+
+Constructor
+
+    public UserService() {
+        this.daftarUser = new ArrayList<>();
+        
+        // Inisialisasi user default
+        daftarUser.add(new User("admin", "admin123", "admin", "Administrator"));
+        daftarUser.add(new User("user", "user123", "user", "Regular User"));
+        
+        this.currentUser = null;  // Belum ada yang login
+    }
+
+Penjelasan:
+
+Membuat 2 user default saat aplikasi start
+Admin: Full access
+User: Limited access
+currentUser = null: Initial state
+
+
+Method login()
+
+    public boolean login(String username, String password) {
+        // Loop through semua user
+        for(User user : daftarUser) {
+            // Cek username DAN password
+            if(user.getUsername().equals(username) && 
+               user.getPassword().equals(password)) {
+                this.currentUser = user;  // Set user yang login
+                return true;              // Login berhasil
+            }
+        }
+        return false;  // Login gagal
+    }
+
+Penjelasan Detail:
+Linear Search:
+
+- Loop semua user satu per satu
+- Cek apakah username DAN password cocok
+- Time complexity: O(n)
+
+Logical AND (&&):
+
+- Kedua kondisi harus TRUE
+- Short-circuit evaluation: Jika kondisi pertama FALSE, kondisi kedua tidak dievaluasi
+
+Authentication Flow:
+
+    Input: username="admin", password="admin123"
+    
+    Loop:
+      User 1: username="admin", password="admin123"
+        → "admin" == "admin"? YES
+        → "admin123" == "admin123"? YES
+        → Both TRUE → Set currentUser, return true
+    
+    Result: Login Success
+
+Failed Login:
+
+    Input: username="admin", password="wrong"
+    
+    Loop:
+      User 1: username="admin", password="admin123"
+        → "admin" == "admin"? YES
+        → "wrong" == "admin123"? NO
+        → FALSE → Continue loop
+      
+      User 2: username="user", password="user123"
+        → "admin" == "user"? NO
+        → Don't check password (short-circuit)
+        → FALSE → Continue loop
+    
+    End of loop → return false
+
+Method logout()
+
+    public void logout() {
+        this.currentUser = null;
+    }
+
+Penjelasan:
+
+- Set currentUser ke null
+- Menandakan tidak ada user yang login
+- Simple tapi efektif
+
+Method getCurrentUser()
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    Penjelasan:
+    
+    Return object User yang sedang login
+    Return null jika belum login
+    Digunakan untuk mendapatkan info user (nama, role, dll)
+
+
+Method isLoggedIn()
+
+    public boolean isLoggedIn() {
+        return currentUser != null;
+    }
+
+Penjelasan:
+
+- Return true jika currentUser bukan null (ada yang login)
+- Return false jika currentUser = null (belum login)
+- Guard untuk cek status login
+
+Usage:
+
+    if(userService.isLoggedIn()) {
+        // User sudah login, tampilkan menu sistem
+    } else {
+        // User belum login, tampilkan menu login
+    }
+
+Method isAdmin()
+
+    public boolean isAdmin() {
+        return currentUser != null && "admin".equals(currentUser.getRole());
+    }
+
+Penjelasan Detail:
+Double Check:
+
+- currentUser != null: Pastikan ada user yang login
+- "admin".equals(...): Cek apakah role = "admin"
+
+Why "admin".equals() instead of currentUser.getRole().equals("admin")?
+
+    // Cara 1: Safer
+    "admin".equals(currentUser.getRole())
+    // Jika getRole() return null, tidak error
+    
+    // Cara 2: Risky
+    currentUser.getRole().equals("admin")
+    // Jika getRole() return null, NullPointerException!
+
+Short-Circuit:
+
+- Jika currentUser = null, kondisi kedua tidak dievaluasi
+- Mencegah NullPointerException
+
+Usage Example:
+
+    if(userService.isAdmin()) {
+        // Allow delete operation
+        tanamanService.hapusTanaman();
+    } else {
+        // Deny access
+        System.out.println("Akses ditolak! Hanya admin.");
+    }
+
+View Layer
+MenuView.java
+Deskripsi
+Class ini adalah presentation layer yang mengatur semua interaksi dengan user (input/output).
+Properties
+
+    private final TanamanService tanamanService;
+    private final UserService userService;
+    private final Scanner input;
+
+Penjelasan final:
+
+- final: Variable tidak bisa di-assign ulang setelah inisialisasi
+- Good practice untuk dependency yang tidak berubah
+- Tidak bisa: tanamanService = new TanamanService()
+- Bisa: tanamanService.tambahTanaman()
+
+Constructor
+
+    public MenuView() {
+        this.tanamanService = new TanamanService();
+        this.userService = new UserService();
+        this.input = new Scanner(System.in);
+    }
+
+Penjelasan:
+
+- Membuat instance service layer
+- Dependency Injection pattern (manual)
+- Scanner untuk input
+
+Method tampilkanMenuUtama()
+
+    public void tampilkanMenuUtama() {
+        while (true) {  // Main application loop
+            if (!userService.isLoggedIn()) {
+                tampilkanMenuLogin();
+            } else {
+                tampilkanMenuSistem();
+            }
+        }
+    }
+
+Method tampilkanMenuLogin()
+
+    private void tampilkanMenuLogin() {
+        System.out.println("\n=== SISTEM MANAJEMEN TANAMAN HIDROPONIK ===");
+        System.out.println("1. Login");
+        System.out.println("2. Keluar");
+        System.out.print("Pilih menu: ");
+    
+        int pilihan = validasiInputInteger(1, 2);
+    
+        switch (pilihan) {
+            case 1:
+                prosesLogin();
+                break;
+            case 2:
+                System.out.println("Terima kasih!");
+                System.exit(0);  // Terminate application
+                break;
+        }
+    }
+
+Penjelasan:
+System.exit(0):
+
+- Terminate seluruh aplikasi
+- 0 = exit normal (success)
+- Non-zero = exit dengan error
+
+Menu Pattern:
+
+- Tampilkan pilihan
+- Validasi input
+- Route ke method yang sesuai
+
+Method prosesLogin()
+
+    private void prosesLogin() {
+        System.out.print("Username: ");
+        String username = input.nextLine();
+        System.out.print("Password: ");
+        String password = input.nextLine();
+    
+        if (userService.login(username, password)) {
+            System.out.println("Login berhasil! Selamat datang, "
+                    + userService.getCurrentUser().getNamaLengkap());
+        } else {
+            System.out.println("Login gagal! Username atau password salah.");
+        }
+    }
+
+Penjelasan Flow:
+
+    1. Minta username
+    2. Minta password
+    3. Call userService.login()
+       ├─ Success → Print welcome message
+       └─ Failed → Print error message
+    4. Return ke main loop
+
+Method Chaining:
+
+    userService.getCurrentUser().getNamaLengkap()
+
+- userService.getCurrentUser() → Return User object
+- .getNamaLengkap() → Call method pada User object
+- Chain method calls untuk akses nested data
+
+Method tampilkanMenuSistem()
+
+    private void tampilkanMenuSistem() {
+        System.out.println("\n=== SISTEM MANAJEMEN TANAMAN HIDROPONIK ===");
+        System.out.println("User: " + userService.getCurrentUser().getNamaLengkap()
+                + " (" + userService.getCurrentUser().getRole() + ")");
+        System.out.println("1. Tambah Tanaman");
+        System.out.println("2. Lihat Semua Tanaman");
+        System.out.println("3. Update Tanaman");
+        System.out.println("4. Hapus Tanaman");
+        System.out.println("5. Cari Tanaman");
+        System.out.println("6. Statistik Tanaman");
+        System.out.println("7. Logout");
+        System.out.print("Pilih menu: ");
+    
+        int maxMenu = userService.isAdmin() ? 8 : 8;
+        int pilihan = validasiInputInteger(1, maxMenu);
+    
+        prosesMenuSistem(pilihan);
+    }
+
+Penjelasan:
+User Info Display:
+
+- Tampilkan nama dan role user yang login
+- User tahu siapa yang sedang login
+
+Dynamic Max Menu:
+
+    int maxMenu = userService.isAdmin() ? 8 : 8;
+
+- Ternary operator (currently sama untuk admin dan user)
+- Bisa dimodifikasi untuk limit menu user biasa
+
+Method prosesMenuSistem()
+
+    private void prosesMenuSistem(int pilihan) {
+        switch (pilihan) {
+            case 1:
+                tanamanService.tambahTanaman();
+                break;
+            case 2:
+                tanamanService.lihatTanaman();
+                break;
+            case 3:
+                tanamanService.updateTanaman();
+                break;
+            case 4:
+                if (userService.isAdmin()) {
+                    tanamanService.hapusTanaman();
+                } else {
+                    System.out.println("Akses ditolak! Hanya admin yang dapat menghapus data.");
+                }
+                break;
+            case 5:
+                tanamanService.cariTanaman();
+                break;
+            case 6:
+                tanamanService.tampilkanStatistik();
+                break;
+            case 7:
+                userService.logout();
+                System.out.println("Logout berhasil!");
+                break;
+        }
+    }
+
+Penjelasan Role-Based Access Control:
+Case 4: Delete Operation
+
+    if (userService.isAdmin()) {
+        // Admin: Allow
+        tanamanService.hapusTanaman();
+    } else {
+        // User biasa: Deny
+        System.out.println("Akses ditolak!");
+    }
+
+Access Matrix:
+    
+    Operation          | Admin | User
+    -------------------|-------|------
+    Tambah Tanaman     |  ✓    |  ✓
+    Lihat Tanaman      |  ✓    |  ✓
+    Update Tanaman     |  ✓    |  ✓
+    Hapus Tanaman      |  ✓    |  ✗
+    Cari Tanaman       |  ✓    |  ✓
+    Statistik          |  ✓    |  ✓
+    Logout             |  ✓    |  ✓
+
+
+Method validasiInputInteger()
+
+    private int validasiInputInteger(int min, int max) {
+        int nilai;
+        while (true) {
+            try {
+                nilai = input.nextInt();
+                input.nextLine(); // consume newline
+                if (nilai >= min && nilai <= max) {
+                    break;
+                } else {
+                    System.out.print("Input harus antara " + min + " dan " + max + ". Coba lagi: ");
+                }
+            } catch (Exception e) {
+                System.out.print("Input harus berupa angka. Coba lagi: ");
+                input.nextLine(); // consume invalid input
+            }
+        }
+        return nilai;
+    }
+
+Penjelasan:
+
+- Sama seperti validasi di TanamanService
+- DRY Principle: Don't Repeat Yourself
+- Bisa di-refactor ke utility class
+
+Post_test_2.java
+javapackage com.mycompany.post_test_2.main;
+
+    import com.mycompany.post_test_2.view.MenuView;
+    
+    public class Post_test_2 {
+        public static void main(String[] args) {
+            System.out.println("Memuat Sistem Manajemen Tanaman Hidroponik...");
+            System.out.println("Arsitektur: MVC (Model-View-Controller)");
+            
+            MenuView menuView = new MenuView();
+            menuView.tampilkanMenuUtama();
+        }
+
+Penjelasan:
+main() Method:
+
+- Entry point aplikasi Java
+- public static void main(String[] args) adalah signature fixed
+- Dipanggil pertama kali saat aplikasi dijalankan
+
+Application Initialization:
+
+- Print welcome message
+- Create MenuView instance
+- Start main application loop
+
+Execution Flow:
+
+        JVM Start
+          ↓
+        main() called
+          ↓
+        Create MenuView
+          ↓
+        menuView.tampilkanMenuUtama()
+          ↓
+        Enter infinite loop
+          ↓
+        Application runs until System.exit(0)
+
+
+---
+
+###  1. ABSTRACTION
+
+#### A. Abstract Class: `BaseService<T>`
+**Lokasi:** `com.mycompany.post_test_2.service.BaseService`
+
+**Fungsi:**
+- Base class untuk semua service yang mengelola data
+- Menyediakan template method untuk operasi CRUD
+- Menerapkan Generic Type `<T>` untuk fleksibilitas
+
+**Abstract Methods:**
+```java
+public abstract void tambahData();
+public abstract void lihatData();
+public abstract void updateData();
+public abstract void hapusData();
+```
+
+**Concrete Methods:**
+- `isDataEmpty()` - Mengecek apakah data kosong
+- `getDataSize()` - Mendapatkan jumlah data
+- `validasiInputInteger()` - Validasi input (dengan 3 overload)
+- `prosesData()` - Template method pattern
+- `displayInfo()` & `displayError()` - Helper untuk display
+
+**Implementasi:**
+- `TanamanService` extends `BaseService<Tanaman>`
+
+---
+
+#### B. Interface: `IMenuView`
+**Lokasi:** `com.mycompany.post_test_2.view.IMenuView`
+
+**Fungsi:**
+- Kontrak untuk semua class yang mengelola menu/view
+- Menyediakan default method untuk UI elements
+
+**Abstract Methods:**
+```java
+void tampilkanMenuUtama();
+void tampilkanMenuLogin();
+void prosesLogin();
+void tampilkanMenuSistem();
+void prosesMenuSistem(int pilihan);
+int validasiInputInteger(int min, int max);
+```
+
+**Default Methods:**
+```java
+default void tampilkanHeader()
+default void tampilkanFooter()
+default boolean konfirmasiAksi(String pesan)
+```
+
+**Implementasi:**
+- `MenuView` implements `IMenuView`
+
+---
+
+###  2. POLYMORPHISM
+
+#### A. Method Overloading (Compile-time Polymorphism)
+
+**1. Di BaseService:**
+```java
+// Versi 1: dengan min dan max
+protected int validasiInputInteger(int min, int max)
+
+// Versi 2: hanya max (min default = 1)
+protected int validasiInputInteger(int max)
+
+// Versi 3: tanpa parameter (default 1-10)
+protected int validasiInputInteger()
+```
+
+**2. Di TanamanService:**
+```java
+// Versi 1: tampilkan semua
+public void lihatTanaman()
+
+// Versi 2: dengan filter jenis/status
+public void lihatTanaman(String filter)
+
+// Versi 3: dengan range index
+public void lihatTanaman(int start, int end)
+```
+
+**3. Di MenuView:**
+```java
+// Versi 1: dengan min dan max
+public int validasiInputInteger(int min, int max)
+
+// Versi 2: hanya max
+public int validasiInputInteger(int max)
+
+// Versi 3: tanpa parameter
+public int validasiInputInteger()
+```
+
+---
+
+#### B. Method Overriding (Runtime Polymorphism)
+
+**1. TanamanService Override BaseService:**
+```java
+@Override
+public void tambahData() { tambahTanaman(); }
+
+@Override
+public void lihatData() { lihatTanaman(); }
+
+@Override
+public void updateData() { updateTanaman(); }
+
+@Override
+public void hapusData() { hapusTanaman(); }
+```
+
+**2. MenuView Override IMenuView:**
+```java
+@Override
+public void tampilkanMenuUtama()
+
+@Override
+public void tampilkanMenuLogin()
+
+@Override
+public void prosesLogin()
+
+@Override
+public void tampilkanMenuSistem()
+
+@Override
+public void prosesMenuSistem(int pilihan)
+
+@Override
+public int validasiInputInteger(int min, int max)
+
+// Override default method dari interface
+@Override
+public void tampilkanHeader()
+
+@Override
+public void tampilkanFooter()
+```
+
+**3. TanamanLambat Override Tanaman:**
+```java
+@Override
+public String toString() // Sudah ada dari versi sebelumnya
+```
+
+---
+
+##  Manfaat Implementasi
+
+### 1. **Abstraction Benefits:**
+- **Loose Coupling:** Interface memisahkan kontrak dari implementasi
+- **Code Reusability:** BaseService dapat digunakan untuk service lain (misal: UserService)
+- **Maintainability:** Perubahan implementasi tidak mempengaruhi kontrak
+- **Scalability:** Mudah menambah service atau view baru
+- **Template Method Pattern:** Alur proses standar di BaseService
+
+### 2. **Polymorphism Benefits:**
+- **Flexibility:** Method overloading memberikan berbagai cara pemanggilan
+- **Readability:** Kode lebih mudah dibaca dengan parameter yang sesuai kebutuhan
+- **Dynamic Binding:** Runtime polymorphism untuk perilaku berbeda
+- **Code Reduction:** Menghindari duplikasi kode
+
+---
+
+##  Diagram Struktur
+
+```
+┌─────────────────┐
+│  BaseService<T> │ (Abstract Class)
+│  (Abstract)     │
+├─────────────────┤
+│ + dataList      │
+│ + input         │
+├─────────────────┤
+│ + tambahData()* │
+│ + lihatData()*  │
+│ + updateData()* │
+│ + hapusData()*  │
+│ + isDataEmpty() │
+│ + getDataSize() │
+└────────┬────────┘
+         │ extends
+         ▼
+┌──────────────────┐
+│ TanamanService   │
+├──────────────────┤
+│ Override:        │
+│ + tambahData()   │
+│ + lihatData()    │
+│ + updateData()   │
+│ + hapusData()    │
+├──────────────────┤
+│ Overload:        │
+│ + lihatTanaman() │
+│ + lihatTanaman(S)│
+│ + lihatTanaman(I)│
+└──────────────────┘
+
+
+┌─────────────┐
+│  IMenuView  │ (Interface)
+├─────────────┤
+│ + tampilkanMenuUtama()    │
+│ + tampilkanMenuLogin()    │
+│ + prosesLogin()           │
+│ + tampilkanMenuSistem()   │
+│ + prosesMenuSistem(int)   │
+│ + validasiInputInteger()  │
+│ + tampilkanHeader()       │ (default)
+│ + tampilkanFooter()       │ (default)
+└──────┬──────┘
+       │ implements
+       ▼
+┌──────────────┐
+│   MenuView   │
+├──────────────┤
+│ Override:    │
+│ All methods  │
+├──────────────┤
+│ Overload:    │
+│ + validasi() │
+│ + validasi(I)│
+└──────────────┘
+```
+
+---
+
+##  Cara Penggunaan
+
+### 1. **Kompilasi File Baru:**
+```bash
+# Compile abstract class
+javac BaseService.java
+
+# Compile interface
+javac IMenuView.java
+
+# Compile updated service
+javac TanamanService.java
+
+# Compile updated view
+javac MenuView.java
+```
+
+### 2. **Struktur Package:**
+```
+com.mycompany.post_test_2/
+├── main/
+│   └── Post_test_2.java
+├── model/
+│   ├── Tanaman.java
+│   ├── TanamanCepat.java
+│   ├── TanamanLambat.java
+│   └── User.java
+├── service/
+│   ├── BaseService.java         ← BARU (Abstract)
+│   ├── TanamanService.java      ← UPDATED
+│   └── UserService.java
+└── view/
+    ├── IMenuView.java           ← BARU (Interface)
+    └── MenuView.java            ← UPDATED
+```
+
+---
+
+##  Contoh Penggunaan Polymorphism
+
+### **Method Overloading:**
+
+```java
+// Di TanamanService
+tanamanService.lihatTanaman();              // Semua tanaman
+tanamanService.lihatTanaman("Sayuran");     // Filter sayuran
+tanamanService.lihatTanaman(1, 5);          // Index 1-5
+
+// Validasi input
+int nilai1 = validasiInputInteger(1, 10);   // Min 1, Max 10
+int nilai2 = validasiInputInteger(10);      // Min 1 (default), Max 10
+int nilai3 = validasiInputInteger();        // Min 1, Max 10 (default)
+```
+
+### **Method Overriding:**
+
+```java
+// BaseService (abstract)
+public abstract void tambahData();
+
+// TanamanService (concrete implementation)
+@Override
+public void tambahData() {
+    tambahTanaman(); // Implementasi spesifik untuk tanaman
+}
+
+// Future: UserService
+@Override
+public void tambahData() {
+    tambahUser(); // Implementasi berbeda untuk user
+}
+```
+
+---
+
+##  Nilai Tambah: Kombinasi Abstract Class & Interface
+
+### **Mengapa Menggunakan Keduanya?**
+
+**Abstract Class (BaseService):**
+-  Menyediakan state (dataList, input)
+-  Menyediakan implementasi method umum
+-  Template method pattern
+-  Code reuse dengan inheritance
+
+**Interface (IMenuView):**
+-  Multiple implementation contract
+-  Default method untuk UI helpers
+-  Loose coupling
+-  Flexibility untuk implementasi berbeda
+
+### **Kombinasi Keduanya:**
+```java
+// BaseService: untuk behavior dan state sharing
+public abstract class BaseService<T> {
+    protected ArrayList<T> dataList;  // Shared state
+    public abstract void tambahData(); // Contract
+    public boolean isDataEmpty() {     // Shared behavior
+        return dataList.isEmpty();
+    }
+}
+
+// IMenuView: untuk contract tanpa state
+public interface IMenuView {
+    void tampilkanMenuUtama();         // Pure contract
+    default void tampilkanHeader() {   // Optional behavior
+        System.out.println("=== HEADER ===");
+    }
+}
+```
+
+---
+
+##  Konsep OOP yang Diterapkan
+
+### ✅ **Checklist Lengkap:**
+
+| Konsep | Status | Implementasi |
+|--------|--------|--------------|
+| **Encapsulation** | ✅ | Private properties + getter/setter |
+| **Inheritance** | ✅ | TanamanCepat/Lambat extends Tanaman |
+| **Polymorphism - Overloading** | ✅ | 3 versi validasiInputInteger(), lihatTanaman() |
+| **Polymorphism - Overriding** | ✅ | Override abstract methods + toString() |
+| **Abstraction - Abstract Class** | ✅ | BaseService<T> |
+| **Abstraction - Interface** | ✅ | IMenuView |
+| **Generic Type** | ✅ | BaseService<T> |
+| **Template Method Pattern** | ✅ | prosesData() di BaseService |
+| **Default Method (Java 8+)** | ✅ | tampilkanHeader() di interface |
+
+---
+
+##  Keuntungan Refactoring
+
+### **Sebelum (Versi 1):**
+```java
+// TanamanService - standalone class
+public class TanamanService {
+    private ArrayList<Tanaman> daftarTanaman;
+    public void tambahTanaman() { ... }
+    public void lihatTanaman() { ... }
+    // ... semua logic di satu class
+}
+
+// MenuView - standalone class
+public class MenuView {
+    public void tampilkanMenuUtama() { ... }
+    // ... tidak ada kontrak
+}
+```
+
+### **Sesudah (Versi 2):**
+```java
+// TanamanService - extends abstract, follows contract
+public class TanamanService extends BaseService<Tanaman> {
+    @Override
+    public void tambahData() { tambahTanaman(); }
+    // ... reuse methods dari BaseService
+    // ... focus on specific logic
+}
+
+// MenuView - implements interface
+public class MenuView implements IMenuView {
+    @Override
+    public void tampilkanMenuUtama() { ... }
+    // ... follows contract
+    // ... dapat diganti implementasi lain
+}
+```
+
+### **Benefit:**
+-  **Modular:** Setiap class punya tanggung jawab jelas
+-  **Reusable:** BaseService bisa untuk service lain
+-  **Pluggable:** Mudah ganti implementasi
+-  **Testable:** Mudah di-mock untuk testing
+-  **Readable:** Struktur lebih jelas
+
+---
+
+##  Testing Scenario
+
+### **Test Polymorphism:**
+```java
+// Test Overloading
+TanamanService service = new TanamanService();
+
+// Call 1: lihatTanaman()
+service.lihatTanaman();  
+// Output: Semua tanaman
+
+// Call 2: lihatTanaman(String)
+service.lihatTanaman("Sayuran");  
+// Output: Hanya sayuran
+
+// Call 3: lihatTanaman(int, int)
+service.lihatTanaman(1, 3);  
+// Output: Tanaman index 1-3
+
+// Test validasi overload
+int a = service.validasiInputInteger(1, 10);  // Min-Max
+int b = service.validasiInputInteger(10);      // Only Max
+int c = service.validasiInputInteger();        // Default
+```
+
+### **Test Abstraction:**
+```java
+// Polymorphic reference
+BaseService<Tanaman> service = new TanamanService();
+
+// Call abstract method (implemented in subclass)
+service.tambahData();  // Calls TanamanService.tambahData()
+service.lihatData();   // Calls TanamanService.lihatData()
+
+// Call concrete method from base class
+boolean empty = service.isDataEmpty();
+int size = service.getDataSize();
+```
+
+---
+
+##  Catatan Penting
+
+1. **Abstract Class vs Interface:**
+   - Abstract class: ketika butuh share state dan behavior
+   - Interface: ketika hanya butuh contract
+
+2. **Method Overloading:**
+   - Harus dalam class yang sama
+   - Berbeda signature (parameter)
+   - Compile-time binding
+
+3. **Method Overriding:**
+   - Harus inheritance relationship
+   - Signature sama persis
+   - Runtime binding
+
+4. **Generic Type <T>:**
+   - Membuat code lebih flexible
+   - Type-safe at compile time
+   - Reusable untuk berbagai tipe
+
+---
+
+##  Summary
+
+Program ini berhasil menerapkan:
+-  **1 Abstract Class** (BaseService)
+-  **1 Interface** (IMenuView)
+-  **3 Method Overloading** (validasiInputInteger, lihatTanaman)
+-  **Multiple Method Overriding**
+-  **Kombinasi Abstract + Interface** (nilai tambah!)
+-  **Generic Type** (bonus!)
+-  **Design Pattern** (Template Method)

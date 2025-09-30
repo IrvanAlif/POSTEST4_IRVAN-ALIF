@@ -141,3 +141,23 @@ Tampilan ini menunjukkan saat pengguna dengan role Regular User milih menu Logou
 Tampilan ini menunjukkan saat pengguna dengan role Administrator (admin) memilih menu Hapus Tanaman. Setelah memilih opsi nomor 4, sistem minta nomor tanaman yang mau dihapus, lalu admin memasukkan angka 1. Sistem kemudian menampilkan pesan Tanaman berhasil dihapus!, yang berarti data tanaman dengan nomor tersebut sudah berhasil dihapus dari sistem. Berbeda dengan user biasa, admin punya akses penuh untuk melakukan penghapusan data.
 
 ---
+
+1. Tanaman.java (Superclass)
+
+Class ini adalah model dasar (superclass) untuk menyimpan data tanaman hidroponik. Menggunakan prinsip Encapsulation dengan properties private.
+
+    private String nama;             
+    private String jenis;             
+    private String sistemHidroponik;  
+    private String tanggalTanam;      
+    private String status;            
+    private String phAir;             
+    private String catatan;    
+
+Penjelasan Access Modifier:
+
+- private: Properties tidak bisa diakses langsung dari luar class
+- Akses hanya melalui getter (read) dan setter (write)
+- Ini adalah implementasi Encapsulation untuk melindungi data
+
+---

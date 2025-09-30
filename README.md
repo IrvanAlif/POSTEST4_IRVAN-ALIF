@@ -146,6 +146,8 @@ Tampilan ini menunjukkan saat pengguna dengan role Administrator (admin) memilih
 
 Class ini adalah model dasar (superclass) untuk menyimpan data tanaman hidroponik. Menggunakan prinsip Encapsulation dengan properties private.
 
+Properties (Attributes)
+
     private String nama;             
     private String jenis;             
     private String sistemHidroponik;  
@@ -161,3 +163,94 @@ Penjelasan Access Modifier:
 - Ini adalah implementasi Encapsulation untuk melindungi data
 
 ---
+
+Constructor
+
+    public Tanaman(String nama, String jenis, String sistemHidroponik, 
+                   String tanggalTanam, String status, String phAir, String catatan) {
+        this.nama = nama;
+        this.jenis = jenis;
+        this.sistemHidroponik = sistemHidroponik;
+        this.tanggalTanam = tanggalTanam;
+        this.status = status;
+        this.phAir = phAir;
+        this.catatan = catatan;
+    }
+
+Penjelasan:
+
+- Constructor dipanggil saat membuat object baru: new Tanaman(...)
+- Parameter constructor digunakan untuk inisialisasi properties
+- this.nama = property class, nama = parameter constructor
+- Constructor ini memastikan setiap object Tanaman memiliki semua data yang dibutuhkan
+
+---
+
+Getter Methods
+
+    public String getNama() { 
+        return nama; 
+    }
+    
+    public String getJenis() { 
+        return jenis; 
+    }
+    
+    public String getSistemHidroponik() { 
+        return sistemHidroponik; 
+    }
+    
+    // ... getter lainnya untuk semua properties
+
+    Penjelasan:
+
+- Getter digunakan untuk membaca nilai property
+- Return type sesuai dengan tipe data property
+- Naming convention: get + NamaProperty (camelCase)
+- Contoh penggunaan: String nama = tanaman.getNama();
+
+---
+
+Setter Methods
+
+    public void setNama(String nama) { 
+        this.nama = nama; 
+    }
+    
+    public void setJenis(String jenis) { 
+        this.jenis = jenis; 
+    }
+    
+    public void setSistemHidroponik(String sistemHidroponik) { 
+        this.sistemHidroponik = sistemHidroponik; 
+    }
+    
+    // ... setter lainnya untuk semua properties
+
+Penjelasan:
+
+- Setter digunakan untuk mengubah nilai property
+- Return type void karena tidak mengembalikan nilai
+- Parameter adalah nilai baru yang akan di-set
+- Naming convention: set + NamaProperty (camelCase)
+- Contoh penggunaan: tanaman.setNama("Kangkung");
+
+---
+
+toString() Method
+
+    @Override
+    public String toString() {
+        return nama + " | " + jenis + " | " + sistemHidroponik + " | " + 
+               tanggalTanam + " | " + status + " | pH:" + phAir + " | " + catatan;
+    }
+
+Penjelasan:
+
+- @Override: Annotation yang menunjukkan method ini meng-override method dari class Object
+- toString(): Method bawaan Java untuk mengkonversi object ke String
+- Digunakan saat: System.out.println(tanaman) atau tanaman.toString()
+- Format output: "Selada | Sayuran | NFT | 01/01/2025 | Tumbuh | pH:6.5 | Baik"
+
+---
+
